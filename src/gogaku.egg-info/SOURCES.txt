@@ -1,0 +1,9 @@
+README.md
+pyproject.toml
+src/gogaku.egg-info/PKG-INFO
+src/gogaku.egg-info/SOURCES.txt
+src/gogaku.egg-info/dependency_links.txt
+src/gogaku.egg-info/requires.txt
+src/gogaku.egg-info/top_level.txt
+src/gogaku/gemma_handler/lm_studio.py
+src/gogaku/vocab_trainer/vocab_manager.py

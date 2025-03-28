@@ -1,28 +1,5 @@
 import streamlit as st
 import json,os
-from gogaku.vocab_manager import Vocab_Manager
-
-def setup_page():
-  st.title("Settings")
-  
-  # User selects the language to learn
-  if 'current_language' not in st.session_state:
-    idx=0
-  else:
-    idx=st.session_state['language'].index(st.session_state['current_language'])
-  language=st.selectbox("Select language",st.session_state['language'],index=idx)
-  
-  # User selects their proficiency level
-  if 'proficiency' not in st.session_state:
-    idx=0
-  else:
-    idx=st.session_state['levels'].index(st.session_state['proficiency'][st.session_state['current_language']])
-  proficiency=st.selectbox("Select level",st.session_state['levels'],index=idx)
-  
-  st.session_state['language']=language
-  st.session_state['proficiency']=proficiency
-  if 'vm' in st.session_state:
-    del st.session_state['vm']
 
 def system_setting():
   st.title("System Settings")
@@ -54,7 +31,7 @@ def load_settings():
 def initial_settings():
   settings={'proficiency':{},
             'current_language':None,
-            'levels':['A1','A2','B1','B2','C1','C2'],
+            'levels':['Beginner','High-Beginner','Intermediate','High Intermediate','Advanced'],
             'MAX_SCORE':5,
             'LLM_URL':'http://127.0.0.1:1234',
             'dir_vocab':'./vocab_data/'}
@@ -71,9 +48,11 @@ def save_settings():
     json.dump(settings,f,indent=2)
 
 
-def update_vm_setting():
+def update_vm_setting(request=''):
   """
   Update the language model settings.
   """
-  st.session_state["vm"].update_setting(st.session_state['current_language'],st.session_state['proficiency'][st.session_state['current_language']])
+  st.session_state["vm"].update_setting(st.session_state['current_language'],st.session_state['proficiency'][st.session_state['current_language']],request=request)
+  if 'sentence' in st.session_state:
+    del st.session_state['sentence']
   save_settings()

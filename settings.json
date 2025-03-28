@@ -1,20 +1,14 @@
 {
   "proficiency": {
-    "Japanese": "A1",
-    "Italian": "A1",
-    "Cantonese": "A1",
-    "English": "A1",
-    "British English": "A1",
-    "Chinese": "A1"
+    "Italian": "Intermediate"
   },
-  "current_language": "Chinese",
+  "current_language": "Italian",
   "levels": [
-    "A1",
-    "A2",
-    "B1",
-    "B2",
-    "C1",
-    "C2"
+    "Beginner",
+    "High-Beginner",
+    "Intermediate",
+    "High Intermediate",
+    "Advanced"
   ],
   "MAX_SCORE": 5,
   "LLM_URL": "http://127.0.0.1:1234",

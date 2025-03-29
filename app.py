@@ -11,6 +11,7 @@ def main():
     st.session_state['language_setting']=False
     st.session_state['system_setting']=False
     st.session_state['vm']=Vocab_Manager_Gemini()
+    st.session_state['additional_words']=[]
     load_settings()
     if st.session_state['gemini_api_key']=='':
       st.session_state['system_setting']=True

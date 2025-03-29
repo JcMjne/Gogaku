@@ -35,9 +35,9 @@ def language_setting():
   language=st.selectbox("Select the language you want to learn.",list(st.session_state['proficiency'].keys()),index=idx)
   language_new=st.text_input("Or type the name of the language you want to learn in English.",placeholder='English').strip().title()
   idx=st.session_state['levels'].index(st.session_state['proficiency'][st.session_state['current_language']]) if st.session_state['current_language'] is not None else 0
-  proficiency=st.selectbox("Select language level.",st.session_state['levels'],index=idx,)
+  proficiency=st.selectbox("Select your level.",st.session_state['levels'],index=idx,)
   vm_request=st.text_area("Any specific requests for the language model?",st.session_state['vm_request'],placeholder='Generated sentence should have more than 10 words.')
-  additional_words=st.text_area("Type words you want to learn",placeholder='word1 word2 ...')
+  additional_words=st.text_area("Type words you want to learn",placeholder='word1 word2 ...',label_visibility='collapsed')
   st.session_state['additional_words']=re.sub(r'[^\w\s\']','',additional_words).split(' ')
 
   if st.button("Confirm",disabled=((language==language_new) and (len(language_new)==0))):

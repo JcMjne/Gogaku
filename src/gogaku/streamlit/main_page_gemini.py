@@ -1,6 +1,10 @@
 import streamlit as st
 import re
-from gogaku.streamlit.main_page import update_and_generate
+
+def update_and_generate(vm,unfamiliar_words=None,familiar_words=None):
+  if (unfamiliar_words is not None) or (familiar_words is not None):
+    vm.update_score(unfamiliar_words,familiar_words)
+  vm.generate_sentence()
 
 def main_page():
   proficiency=st.session_state['proficiency'][st.session_state['current_language']]

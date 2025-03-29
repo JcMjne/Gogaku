@@ -12,14 +12,14 @@ You need Git and Python 3.8+ installed on your system.
    git clone https://github.com/JcMjne/Gogaku.git
    ```
 
-2. Navigate to the project directory and install the required dependencies:
+2. Move to the project directory and install the required dependencies:
 
    ```bash
    cd Gogaku
    pip install .
    ```
 
-3. Run the following command launch the app:
+3. Run the following command to launch the app:
 
    ```bash
    streamlit run app.py

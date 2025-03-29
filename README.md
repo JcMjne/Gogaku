@@ -22,7 +22,7 @@ You need Git and Python 3.8+ installed on your system.
 3. Run the following command launch the app:
 
    ```bash
-   streamlit run app_gemini.py
+   streamlit run app.py
    ```
 
 ## Get Gemini API Key

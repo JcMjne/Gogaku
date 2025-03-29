@@ -13,7 +13,6 @@ class Vocab_Manager:
     msg=[{'role': 'system', 'content': self.msg_sys},
          {'role': 'user', 'content': self.msg_user}]
     response=self.lm.get_response(msg)
-    print(response)
     self.sentence=response.split('Sentence:')[1].split('Translation:')[0].strip()
     self.translation=response.split('Translation:')[1].split('Explanation:')[0].strip()
     self.explanation=response.split('Explanation:')[1].strip().split('Words:')[0].strip()
@@ -81,7 +80,6 @@ class Vocab_Manager:
     np.random.shuffle(idx)
     msg=[f"{self.word_learning[idx[i]]}: {self.max_score-self.score_leaning[idx[i]]}, " for i in range(len(idx_learning))]
     self.msg_user=self.msg_user_format.format("".join(msg))
-    print(msg)
     
   def update_setting(self,language='Italian',proficiency='A1',local_url='http://127.0.0.1:1234',max_score=5,request='',db_dir='./vocab_data/'):
     self.new_words=[]

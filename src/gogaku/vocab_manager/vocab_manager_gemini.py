@@ -28,12 +28,15 @@ class Vocab_Manager_Gemini(Vocab_Manager):
     os.makedirs(self.db_dir,exist_ok=True)
     self.vocab_db_path=f'{self.db_dir}{self.language.replace(' ','_').lower()}.csv'
     self.max_score=max_score
-    self.msg_sys_base=f"""You are teaching {self.language} to students at the {self.proficiency} level. \
+    self.msg_sys=f"""You are teaching {self.language} to students at the {self.proficiency} level. \
       Follow the user's instructions carefully and generate a sentence in {self.language} that aligns with the provided words and priorities. \
         Provide explanations and additional words as specified, without mentioning the priority scores. \
           Even if the target language does not use space between words normally, put spaces between words in the generated sentence. \
-            The generated sentence should be useful in daily conversation."""
-    self.msg_sys=self.msg_sys_base
+            The generated sentence should be useful in daily conversation.\
+              All the translations and explanations must be done in {st.session_state['user_language']}. \
+              The content of the explanations should also be suitable for the {self.proficiency} level. \
+                Omit the explanation of easy words for the {self.proficiency} level."""
+              
     self.msg_user_format=f"""
       Here is a list of words followed by their priority scores."""+"""
 
@@ -46,11 +49,11 @@ class Vocab_Manager_Gemini(Vocab_Manager):
       
       The output must strictly follow this format:
         Sentence:<Generated sentence>
-        Translation:<English translation of generated sentence>
-        Explanation:<Grammatical details of each word>
+        Translation:<Translation of generated sentence>
+        Explanation:<Detailed grammatical explanation>
         Words:<5 new words at the {self.proficiency} level which are not in the provided list, separated by commas>
 
       When generating new words, do not add any spaces after the comma.
-      In the Explanation section, describe word conjugations and meanings and so on, but do not mention scores.
+      In the Explanation section, describe word conjugations and meanings and so on in list format, but do not mention scores.
       """+request
     self.load_score()

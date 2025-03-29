@@ -4,10 +4,8 @@ from google import genai
 
 def system_setting_gemini():
   st.title("System Settings")
-  if st.session_state['gemini_api_key']=='':
-    gemini_api_key=st.text_input("Type Gemini API Key",type="password")
-  else:
-    gemini_api_key=st.text_input("Change Gemini API Key",st.session_state['gemini_api_key'],type="password")
+  st.session_state['user_language']=st.text_input("Type your native language",st.session_state['user_language'])
+  gemini_api_key=st.text_input("Type Gemini API Key",st.session_state['gemini_api_key'],type="password")
 
   if len(gemini_api_key)!=0:
     st.session_state['gemini_api_key']=gemini_api_key
@@ -19,21 +17,14 @@ def system_setting_gemini():
   if st.button("Confirm"):
     save_settings()
     st.session_state['gemini_client']=genai.Client(api_key=st.session_state['gemini_api_key'])
+    if st.session_state['current_language'] is None:
+      st.session_state['language_setting']=True
+      st.session_state['system_setting']=False
+    else:
+      st.session_state['practice']=True
+      st.session_state['system_setting']=False
     st.rerun()
 
-  if st.button('Practice',disabled=(st.session_state['current_language'] is None)):
-    save_settings()
-    st.session_state['practice']=True
-    st.session_state['language_setting']=False
-    st.session_state['system_setting']=False
-    st.rerun()
-  elif st.button('Language Setting'):
-    save_settings()
-    st.session_state['practice']=False
-    st.session_state['language_setting']=True
-    st.session_state['system_setting']=False
-    st.rerun()
-    
 def load_settings():
   if not os.path.exists('./settings.json'):
     settings=initial_settings()
@@ -49,6 +40,7 @@ def load_settings():
   st.session_state['dir_vocab']=settings['dir_vocab']
   st.session_state['gemini_api_key']=settings['gemini_api_key']
   st.session_state['gemini_temperature']=settings['gemini_temperature']
+  st.session_state['user_language']=settings['user_language']
   os.makedirs(st.session_state['dir_vocab'],exist_ok=True)
   save_settings()
 
@@ -61,7 +53,8 @@ def initial_settings():
             'current_model':'gemini-2.0-flash',
             'dir_vocab':'./vocab_data/',
             'gemini_api_key':'',
-            'gemini_temperature':0.5}
+            'gemini_temperature':0.5,
+            'user_language':'English'}
   return settings
 
 def save_settings():
@@ -73,7 +66,8 @@ def save_settings():
             'current_model':st.session_state['current_model'],
             'dir_vocab':st.session_state['dir_vocab'],
             'gemini_api_key':st.session_state['gemini_api_key'],
-            'gemini_temperature':st.session_state['gemini_temperature']}
+            'gemini_temperature':st.session_state['gemini_temperature'],
+            'user_language':st.session_state['user_language']}
   with open('./settings.json','w') as f:
     json.dump(settings,f,indent=2)
 

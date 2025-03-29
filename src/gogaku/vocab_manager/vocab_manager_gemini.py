@@ -18,8 +18,9 @@ class Vocab_Manager_Gemini(Vocab_Manager):
     self.translation=response.split('Translation:')[1].split('Explanation:')[0].strip()
     self.explanation=response.split('Explanation:')[1].strip().split('Words:')[0].strip()
     new_words=response.split('Words:')[1].strip().split(',')
-    self.new_words=[word.strip() for word in new_words]
-
+    self.new_words=[word.strip() for word in new_words]+st.session_state['additional_words']
+    st.session_state['additional_words']=[]
+    
   def update_setting(self,language,proficiency,max_score=5,request='',db_dir='./vocab_data/'):
     self.new_words=[]
     self.language=language

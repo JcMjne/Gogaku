@@ -14,7 +14,7 @@ def system_setting_gemini():
   st.session_state['gemini_temperature']=st.slider(txt_temp,min_value=0.0,max_value=2.0,value=st.session_state['gemini_temperature'],step=0.1)
   idx=st.session_state['LLM_models'].index(st.session_state['current_model'])
   st.session_state['current_model']=st.selectbox("Select the model",st.session_state['LLM_models'],index=idx)
-  if st.button("Confirm"):
+  if st.button("Confirm",disabled=(st.session_state['gemini_api_key']=='')):
     save_settings()
     st.session_state['gemini_client']=genai.Client(api_key=st.session_state['gemini_api_key'])
     if st.session_state['current_language'] is None:
@@ -49,12 +49,12 @@ def initial_settings():
             'current_language':None,
             'levels':['Beginner','High-Beginner','Intermediate','High Intermediate','Advanced'],
             'MAX_SCORE':5,
-            'LLM_models':['gemini-2.0-flash','gemini-2.0'],
+            'LLM_models':['gemini-2.0-flash','gemini-2.0-flash-lite'],
             'current_model':'gemini-2.0-flash',
             'dir_vocab':'./vocab_data/',
             'gemini_api_key':'',
             'gemini_temperature':0.5,
-            'user_language':'English'}
+            'user_language':'Japanese'}
   return settings
 
 def save_settings():

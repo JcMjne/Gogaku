@@ -1,5 +1,4 @@
 import streamlit as st
-from gogaku.vocab_manager import Vocab_Manager
 import re
 
 def update_and_generate(vm,unfamiliar_words=None,familiar_words=None):

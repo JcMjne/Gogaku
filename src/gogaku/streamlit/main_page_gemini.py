@@ -3,7 +3,8 @@ import re
 from gogaku.streamlit.main_page import update_and_generate
 
 def main_page():
-  st.title(f"Practice {st.session_state['current_language']}!")
+  proficiency=st.session_state['proficiency'][st.session_state['current_language']]
+  st.title(f"Practice {proficiency} level {st.session_state['current_language']}!")
   if "unfamiliar_word" not in st.session_state:
     st.session_state["unfamiliar_word"]=None
     st.session_state["familiar_word"]=None

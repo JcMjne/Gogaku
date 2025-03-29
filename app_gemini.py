@@ -2,7 +2,7 @@ from gogaku.streamlit.main_page_gemini import main_page
 from gogaku.streamlit.language_setting_gemini import language_setting
 from gogaku.streamlit.system_setting_gemini import system_setting_gemini,load_settings,update_vm_setting
 import streamlit as st
-from gogaku.vocab_manager_gemini import Vocab_Manager_Gemini
+from gogaku.vocab_manager.vocab_manager_gemini import Vocab_Manager_Gemini
 from google import genai
 
 def main():

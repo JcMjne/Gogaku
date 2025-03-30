@@ -1,12 +1,13 @@
 # Gogaku
 
-It's a simple language learning tool, assisting in the memorization of vocabulary and phrases.
+It's a simple language learning tool, assisting your memorization of vocabulary and phrases.
+For audio features, you need to authenticate Google Cloud APIs on your system. Visit https://cloud.google.com/text-to-speech/docs/libraries for more information.
 
 ## Installation
 
 You need Git and Python 3.8+ installed on your system.
 
-1. Open your Terminal (Command Prompt if the OS is Windows) and run the following command to download the project files:
+1. Open your Terminal and run the following command to download the project files:
 
    ```bash
    git clone https://github.com/JcMjne/Gogaku.git

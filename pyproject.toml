@@ -5,7 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "gogaku"
 version = "0.1"
-dependencies = ["numpy","streamlit","google-genai"]
+dependencies = [
+  "numpy",
+  "streamlit",
+  "google-genai",
+  "google-cloud-texttospeech",
+  "pycountry"
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -73,7 +73,6 @@ def update_language_settings(language,language_new,proficiency,vm_request):
       update_vm_setting(vm_request)
     
   elif len(language_new)!=0 and language_new not in st.session_state['param']['languages']:
-    print('Called')
     st.session_state['param']['current_language']=language_new
     st.session_state['param']['languages'][language_new]={'proficiency':proficiency,}
     if not os.path.exists(st.session_state['param']['dir_vocab']+f'{language_new.lower()}.csv'):

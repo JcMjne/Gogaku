@@ -1,5 +1,7 @@
 import streamlit as st
 from gogaku.tts import synthesize_text
+import re
+import base64
 
 def update_and_generate(vm,unfamiliar_words=None,familiar_words=None):
   if (unfamiliar_words is not None) or (familiar_words is not None):

@@ -1,6 +1,10 @@
 # Gogaku
 
-It's a simple language learning tool, assisting your memorization of vocabulary and phrases.
+
+https://github.com/user-attachments/assets/40155d84-aed2-429b-a464-afed9a57c93a
+
+
+It's a simple language-learning tool that assists you in memorizing vocabulary and phrases.
 For audio features, you need to authenticate Google Cloud APIs on your system. Visit https://cloud.google.com/text-to-speech/docs/libraries for more information.
 
 ## Installation

@@ -26,3 +26,4 @@ def synthesize_text(client,text,language_code,name,speaking_rate,pitch):
   # The response's audio_content is binary.
   with open("text_audio.mp3", "wb") as out:
     out.write(response.audio_content)
+  return response.audio_content

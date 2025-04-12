@@ -3,7 +3,7 @@ import json,os
 from google import genai
 
 def system_setting_gemini():
-  st.title("System Settings")
+  st.header("System Settings")
   st.session_state['param']['user_language']=st.text_input("Type your native language",st.session_state['param']['user_language'])
   gemini_api_key=st.text_input("Type Gemini API Key",st.session_state['param']['gemini_api_key'],type="password")
 
@@ -14,11 +14,14 @@ def system_setting_gemini():
   st.session_state['param']['gemini_temperature']=st.slider(
     txt_temp,min_value=0.0,max_value=2.0,value=st.session_state['param']['gemini_temperature'],step=0.1)
   idx=st.session_state['param']['LLM_models'].index(st.session_state['param']['current_model'])
+  
   st.session_state['param']['current_model']=st.selectbox("Select the model",st.session_state['param']['LLM_models'],index=idx)
   
   if st.button("Confirm",disabled=(st.session_state['param']['gemini_api_key']=='')):
     save_settings()
     st.session_state['gemini_client']=genai.Client(api_key=st.session_state['param']['gemini_api_key'])
+    llm_models=st.session_state['gemini_client'].models.list().page
+    st.session_state['param']['LLM_models']=[page.name.split('/')[1] for page in llm_models if ('gemini' in page.name.split('/')[1])]
     if st.session_state['param']['current_language'] is None:
       st.session_state['language_setting']=True
       st.session_state['system_setting']=False
@@ -48,6 +51,7 @@ def initial_settings():
             'gemini_api_key':'',
             'gemini_temperature':0.5,
             'user_language':'English',
+            'audio_enabled':False,
             'speaking_rate':1.0,
             'speaking_pitch':0.0,
             'languages':{}}

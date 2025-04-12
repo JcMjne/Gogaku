@@ -7,10 +7,6 @@ from google import genai
 from google.cloud import texttospeech
 import json
 
-
-if 'audio_enabled' not in st.session_state:
-  st.session_state['audio_enabled']=False
-
 def init_page():
   with open('language_codes.json') as f:
     st.session_state['lang_code_list']=json.load(f)

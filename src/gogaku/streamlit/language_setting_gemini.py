@@ -3,11 +3,7 @@ import numpy as np
 import os,re
 from gogaku.streamlit.system_setting_gemini import update_vm_setting,save_settings
 from google.genai import types
-
-_init_dict_lang={
-  'proficiency':{},
-  'speaker_language':''
-}
+import datetime
 
 def get_first_words(language:str,level:str,num_words=50):
   """
@@ -17,7 +13,7 @@ def get_first_words(language:str,level:str,num_words=50):
   msg=f"""Generate {num_words} {language.title()} words at the {level} level in the following format:
   <word 1>,<word 2>,...,<word {num_words}>
   Do not add any spaces after the comma. \
-    Do not say anything else."""
+  Do not say anything else."""
   response=st.session_state['gemini_client'].models.generate_content(
     model=st.session_state['param']['current_model'],
     config=types.GenerateContentConfig(
@@ -27,16 +23,20 @@ def get_first_words(language:str,level:str,num_words=50):
   
   raw_text=response.text
   text=raw_text.replace('<','').replace('>','').replace('\n','').split(',')
+  text=[word.strip() for word in text if len(word.strip())!=0]
   num_words_generated=len(text)
-  if not os.path.exists(st.session_state['param']['dir_vocab']+f'{language.lower().replace(' ','_')}.csv'):
-    np.savetxt(st.session_state['param']['dir_vocab']+f'{language.lower().replace(' ','_')}.csv',
-               np.column_stack([text,np.zeros(num_words_generated,int)]),fmt='%s',delimiter=',',encoding='utf-8')
+
+  current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+  time_column = [current_time] * num_words_generated
+  np.savetxt(st.session_state['param']['dir_vocab']+f'{language.lower().replace(' ','_')}.csv',
+              np.column_stack([text,np.zeros(num_words_generated,int),time_column]),fmt='%s',delimiter=',',encoding='utf-16')
   
 def language_setting():
   """
   Set the language and proficiency level for the user.
   """
-  st.title("Language Settings")
+  st.header("Language Settings")
   idx=list(st.session_state['param']['languages'].keys()).index(st.session_state['param']['current_language']) if st.session_state['param']['current_language'] is not None else None
   language=st.selectbox("Select the language you want to learn.",list(st.session_state['param']['languages'].keys()),index=idx)
   language_new=st.text_input("Or type the name of the language you want to learn in English.",placeholder='English').strip().title()
@@ -44,18 +44,18 @@ def language_setting():
   idx=st.session_state['param']['levels'].index(st.session_state['param']['languages'][current_language]['proficiency']) if current_language in st.session_state['param']['languages'] else 0
   proficiency=st.selectbox("Select your level.",st.session_state['param']['levels'],index=idx)
   with st.expander("Additional Settings",expanded=False):
-    val=st.session_state['param']['languages']['vm_request'] if ('current_language' in st.session_state['param']['languages']) else ''
+    val=st.session_state['param']['languages'][current_language]['vm_request'] if (current_language in st.session_state['param']['languages']) else ''
     vm_request=st.text_area("Any specific requests for the language model?",val,placeholder='Generated sentence should have more than 10 words.')
     additional_words=st.text_area("Type words you want to learn",placeholder='word1 word2 ...')
   st.session_state['additional_words']=re.sub(r'[^\w\s\']','',additional_words).split(' ')
   
   #Set language code for audio
-  if st.button('Enable Audio' if not st.session_state['audio_enabled'] else 'Disable Audio',disabled=(current_language is None)):
+  if st.button('Enable Audio' if not st.session_state['param']['audio_enabled'] else 'Disable Audio',disabled=(current_language is None)):
     
     update_language_settings(language,language_new,proficiency,vm_request)
-    st.session_state['audio_enabled']=not st.session_state['audio_enabled']
+    st.session_state['param']['audio_enabled']=not st.session_state['param']['audio_enabled']
     st.rerun()
-  if st.session_state['audio_enabled']:
+  if st.session_state['param']['audio_enabled']:
     update_language_settings(language,language_new,proficiency,vm_request)
     speaker_language_settings()
   
@@ -80,6 +80,8 @@ def update_language_settings(language,language_new,proficiency,vm_request):
     st.session_state['param']['languages'][language_new]['vm_request']=vm_request
     update_vm_setting(vm_request)
     if 'vm_task' in st.session_state: del st.session_state['vm_task']
+    st.session_state["unfamiliar_word"]=None
+    st.session_state["familiar_word"]=None
     
   elif len(language_new)!=0 and language_new in st.session_state['param']['languages']:
     st.session_state['param']['current_language']=language_new
@@ -87,6 +89,8 @@ def update_language_settings(language,language_new,proficiency,vm_request):
     st.session_state['param']['languages'][language_new]['proficiency']=proficiency
     update_vm_setting(vm_request)
     if 'vm_task' in st.session_state: del st.session_state['vm_task']
+    st.session_state["unfamiliar_word"]=None
+    st.session_state["familiar_word"]=None
     
   else: # if language_new is blank
     st.session_state['param']['current_language']=language 
@@ -94,6 +98,8 @@ def update_language_settings(language,language_new,proficiency,vm_request):
     st.session_state['param']['languages'][language]['proficiency']=proficiency
     update_vm_setting(vm_request)
     if 'vm_task' in st.session_state: del st.session_state['vm_task']
+    st.session_state["unfamiliar_word"]=None
+    st.session_state["familiar_word"]=None
   save_settings()
 
 def speaker_language_settings():

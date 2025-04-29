@@ -1,6 +1,6 @@
 from google.cloud import texttospeech
 
-def synthesize_text(client,text,language_code,name,speaking_rate,pitch):
+def synthesize_text(client,text,language_code,name):
   """Synthesizes speech from the input string of text."""
   input_text=texttospeech.SynthesisInput(text=text)
 
@@ -12,9 +12,7 @@ def synthesize_text(client,text,language_code,name,speaking_rate,pitch):
   )
 
   audio_config=texttospeech.AudioConfig(
-    audio_encoding=texttospeech.AudioEncoding.MP3,
-    speaking_rate=speaking_rate,
-    pitch=pitch,
+    audio_encoding=texttospeech.AudioEncoding.MP3
   )
 
   response=client.synthesize_speech(

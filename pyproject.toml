@@ -10,7 +10,12 @@ dependencies = [
   "streamlit",
   "google-genai",
   "google-cloud-texttospeech",
-  "pycountry"
+  "pycountry",
+  "SudachiPy",
+  "pynlpir",
+  "chinese",
+  "spacy",
+  "wordfreq"
 ]
 
 [tool.setuptools.packages.find]

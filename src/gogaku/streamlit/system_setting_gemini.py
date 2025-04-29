@@ -1,5 +1,5 @@
 import streamlit as st
-import json,os
+import json,os,time
 from google import genai
 
 def system_setting_gemini():
@@ -19,9 +19,10 @@ def system_setting_gemini():
   
   if st.button("Confirm",disabled=(st.session_state['param']['gemini_api_key']=='')):
     save_settings()
+    
     st.session_state['gemini_client']=genai.Client(api_key=st.session_state['param']['gemini_api_key'])
     llm_models=st.session_state['gemini_client'].models.list().page
-    st.session_state['param']['LLM_models']=[page.name.split('/')[1] for page in llm_models if ('gemini' in page.name.split('/')[1])]
+    st.session_state['param']['LLM_models']=[page.name.split('/')[1] for page in llm_models if ('gemini-2.5-flash' in page.name.split('/')[1])]
     if st.session_state['param']['current_language'] is None:
       st.session_state['language_setting']=True
       st.session_state['system_setting']=False
@@ -29,6 +30,7 @@ def system_setting_gemini():
       st.session_state['practice']=True
       st.session_state['system_setting']=False
     update_vm_setting()
+    st.session_state['time']=time.time()
     st.rerun()
 
 def load_settings():

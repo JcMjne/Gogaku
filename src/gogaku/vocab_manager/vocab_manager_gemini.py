@@ -95,7 +95,7 @@ class Vocab_Manager_Gemini(Vocab_Manager):
 
     words: list<str>
     """
-    if self.language in ['Chinese','Korean']:
+    if self.language in ['Chinese','Korean','Japanese']:
       return words
     docs=list(st.session_state['nlp'].pipe(words))
     words_analyzed=[[token.lemma_ for token in doc] for doc in docs]

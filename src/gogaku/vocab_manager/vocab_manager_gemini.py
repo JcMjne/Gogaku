@@ -61,7 +61,7 @@ class Vocab_Manager_Gemini(Vocab_Manager):
     self.proficiency=proficiency
     self.db_dir=st.session_state['param']['dir_vocab']
     os.makedirs(self.db_dir,exist_ok=True)
-    self.vocab_db_path=f'{self.db_dir}{self.language.replace(' ','_').lower()}.csv'
+    self.vocab_db_path=f"{self.db_dir}{self.language.replace(' ','_').lower()}.csv"
     self.max_score=st.session_state['param']['MAX_SCORE']
     self.msg_sys=f"""You are teaching {self.language} to {st.session_state['param']['user_language']} students at the {self.proficiency} level. \
     Translations and explanations must be done in native level {st.session_state['param']['user_language']}. \

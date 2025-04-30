@@ -63,7 +63,7 @@ def update_language_settings(current_language,proficiency,vm_request):
   if 'vm_task' in st.session_state: del st.session_state['vm_task']
   if current_language not in st.session_state['param']['languages']: #new language
     if current_language not in ['Japanese','Chinese','Korean']:
-      os.system(f'python -m spacy download {st.session_state['lang_dict_list'][current_language]}')
+      os.system(f"python -m spacy download {st.session_state['lang_dict_list'][current_language]}")
     st.session_state['param']['languages'][current_language]={}
     import spacy
     st.session_state['nlp']=spacy.load(st.session_state['lang_dict_list'][current_language])

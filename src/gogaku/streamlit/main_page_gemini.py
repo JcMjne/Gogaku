@@ -1,9 +1,7 @@
 import streamlit as st
 from gogaku.tts import synthesize_text
 from gogaku.streamlit.system_setting_gemini import save_settings
-import re
-import base64
-import time
+import re, base64, time
 from chinese.tokenizer import Tokenizer
 
 def update_and_generate(vm,unfamiliar_words=None,familiar_words=None):
@@ -88,13 +86,6 @@ def main_page():
   st.write('Total study time: ',time_string)
 
 def choose_unfamiliar_word():
-  #if 'Japanese' in st.session_state['param']['current_language']:
-  #  words=[token.surface() for token in st.session_state['japanese_tokenizer'].tokenize(re.sub(r'[^\w\s\']', '', st.session_state["sentence"]))]
-  #elif 'Chinese' in st.session_state['param']['current_language']:
-  #  words=st.session_state['chinese_analyzer'].parse(re.sub(r'[^\w\s\']', '', st.session_state["sentence"]),using=Tokenizer.pynlpir).tokens()
-  #else:
-  #  words=re.sub(r'[^\w\s\']', ' ', st.session_state["sentence"]).split(' ')
-  #words=[word for word in words if len(word) > 0]
   clicked_words=st.pills("Click the words you don't understand.", st.session_state['words'],selection_mode="multi")
   st.session_state["unfamiliar_word"]=list(set(clicked_words))
   st.session_state["familiar_word"]=list(set(st.session_state['words'])-set(clicked_words))

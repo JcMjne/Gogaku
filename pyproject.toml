@@ -12,6 +12,7 @@ dependencies = [
   "google-cloud-texttospeech",
   "pycountry",
   "SudachiPy",
+  "sudachidict_core",
   "pynlpir",
   "chinese",
   "spacy",

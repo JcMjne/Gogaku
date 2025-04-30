@@ -5,14 +5,14 @@ import streamlit as st
 from gogaku.vocab_manager.vocab_manager_gemini import Vocab_Manager_Gemini
 from google import genai
 from google.cloud import texttospeech
-import json
-import time
+import json, time, importlib
 from sudachipy import tokenizer
 from sudachipy import dictionary
 from chinese import ChineseAnalyzer
 
 def init_page():
-  with open('language_codes.json') as f:
+  json_path=importlib.resources.files('gogaku').joinpath('language_codes.json')
+  with open(json_path) as f:
     #st.session_state['lang_code_list']=json.load(f)
     st.session_state['lang_dict_list']=json.load(f)
     st.session_state['langs_list']=list(st.session_state['lang_dict_list'].keys())
@@ -32,7 +32,7 @@ def init_page():
       st.session_state['japanese_tokenizer']=dictionary.Dictionary().create(mode=mode)
     elif 'Chinese' in st.session_state['param']['current_language']:
       st.session_state['chinese_analyzer']=ChineseAnalyzer()
-    elif st.session_state['param']['current_language'] not in ['Japanese','Chinese','Korean']:
+    else:
       import spacy
       st.session_state['nlp']=spacy.load(st.session_state['lang_dict_list'][st.session_state['param']['current_language']])
   if st.session_state['param']['gemini_api_key']=='':

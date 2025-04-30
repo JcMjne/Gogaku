@@ -1,8 +1,7 @@
 import streamlit as st
 import numpy as np
-import os,re,time
+import os,time
 from gogaku.streamlit.system_setting_gemini import update_vm_setting,save_settings
-from google.genai import types
 from sudachipy import tokenizer
 from sudachipy import dictionary
 from chinese import ChineseAnalyzer
@@ -23,7 +22,7 @@ def get_first_words(language:str,num_words=5000):
   num_words_generated=len(word_processed)
   current_time=int(time.time())
   time_column = [current_time] * num_words_generated
-  np.savetxt(st.session_state['param']['dir_vocab']+f'{language.lower().replace(' ','_')}.csv',
+  np.savetxt(st.session_state['param']['dir_vocab']+f"{language.lower().replace(' ','_')}.csv",
               np.column_stack([word_processed,np.zeros(num_words_generated,int),time_column]),fmt='%s',delimiter=',',encoding='utf-16')
   
 def language_setting():

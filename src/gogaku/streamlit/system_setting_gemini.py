@@ -29,7 +29,8 @@ def system_setting_gemini():
     else:
       st.session_state['practice']=True
       st.session_state['system_setting']=False
-    update_vm_setting()
+    if st.session_state['param']['current_language'] is not None:
+      update_vm_setting()
     st.session_state['time']=time.time()
     st.rerun()
 
@@ -45,17 +46,13 @@ def load_settings():
 
 def initial_settings():
   settings={'current_language':None,
-            'levels':['Beginner','High-Beginner','Intermediate','High Intermediate','Advanced'],
             'MAX_SCORE':5,
-            'LLM_models':['gemini-2.0-flash','gemini-2.0-flash-lite'],
-            'current_model':'gemini-2.0-flash',
+            'LLM_models':['gemini-2.5-flash-preview-04-17'],
+            'current_model':'gemini-2.5-flash-preview-04-17',
             'dir_vocab':'./vocab_data/',
             'gemini_api_key':'',
             'gemini_temperature':0.5,
             'user_language':'English',
-            'audio_enabled':False,
-            'speaking_rate':1.0,
-            'speaking_pitch':0.0,
             'languages':{}}
   return settings
 

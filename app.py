@@ -26,14 +26,15 @@ def init_page():
   st.session_state['vm']=Vocab_Manager_Gemini()
   st.session_state['additional_words']=[]
   load_settings()
-  if 'Japanese' in st.session_state['param']['current_language']:
-    mode = tokenizer.Tokenizer.SplitMode.C
-    st.session_state['japanese_tokenizer']=dictionary.Dictionary().create(mode=mode)
-  elif 'Chinese' in st.session_state['param']['current_language']:
-    st.session_state['chinese_analyzer']=ChineseAnalyzer()
-  elif st.session_state['param']['current_language'] not in ['Japanese','Chinese','Korean']:
-    import spacy
-    st.session_state['nlp']=spacy.load(st.session_state['lang_dict_list'][st.session_state['param']['current_language']])
+  if st.session_state['param']['current_language']!=None:
+    if 'Japanese' in st.session_state['param']['current_language']:
+      mode = tokenizer.Tokenizer.SplitMode.C
+      st.session_state['japanese_tokenizer']=dictionary.Dictionary().create(mode=mode)
+    elif 'Chinese' in st.session_state['param']['current_language']:
+      st.session_state['chinese_analyzer']=ChineseAnalyzer()
+    elif st.session_state['param']['current_language'] not in ['Japanese','Chinese','Korean']:
+      import spacy
+      st.session_state['nlp']=spacy.load(st.session_state['lang_dict_list'][st.session_state['param']['current_language']])
   if st.session_state['param']['gemini_api_key']=='':
     st.session_state['system_setting']=True
   elif st.session_state['param']['current_language'] is None:

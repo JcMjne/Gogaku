@@ -39,7 +39,9 @@ def language_setting():
     vm_request=st.text_area("Any specific requests for the language model?",val)
     st.session_state['additional_words']=st.text_area("Type words you want to learn")
   
-  speaker_language_settings(current_language)
+  st.session_state['param']['current_language']=current_language
+  if st.session_state['param']['current_language'] is not None:
+    speaker_language_settings(current_language)
   if current_language not in st.session_state['param']['languages']:
     st.session_state['auto_vocab']=st.checkbox('Automatically add most frequency words to vocabulary list')
     if st.session_state['auto_vocab']:
@@ -64,9 +66,9 @@ def update_language_settings(current_language,proficiency,vm_request):
   if current_language not in st.session_state['param']['languages']: #new language
     if current_language not in ['Japanese','Chinese','Korean']:
       os.system(f"python -m spacy download {st.session_state['lang_dict_list'][current_language]}")
+      import spacy
+      st.session_state['nlp']=spacy.load(st.session_state['lang_dict_list'][current_language])
     st.session_state['param']['languages'][current_language]={}
-    import spacy
-    st.session_state['nlp']=spacy.load(st.session_state['lang_dict_list'][current_language])
     if not os.path.exists(st.session_state['param']['dir_vocab']+f'{current_language.lower()}.csv'):
       if st.session_state['auto_vocab']:
         get_first_words(current_language,st.session_state['num_words'])

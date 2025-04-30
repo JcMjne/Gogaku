@@ -50,7 +50,7 @@ def initial_settings():
             'LLM_models':['gemini-2.5-flash-preview-04-17'],
             'current_model':'gemini-2.5-flash-preview-04-17',
             'dir_vocab':'./vocab_data/',
-            'gemini_api_key':'AIzaSyDTgbG9QyduDiSse8sAiosnVPBRBUWDGag',
+            'gemini_api_key':'',
             'gemini_temperature':0.5,
             'user_language':'Japanese',
             'languages':{}}

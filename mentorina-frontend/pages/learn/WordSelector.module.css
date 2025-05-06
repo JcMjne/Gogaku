@@ -1,0 +1,25 @@
+.container {
+  flex-wrap: wrap;
+  display: inline;
+  background-color: transparent;
+}
+
+.word {
+  border: transparent;
+  border-radius: 0;
+  background-color: transparent;
+  color: black;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.0s;
+}
+
+.selectedWord {
+  border: transparent;
+  border-radius: 0;
+  background-color: transparent;
+  color: red;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.0s;
+}
